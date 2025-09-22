@@ -1,10 +1,8 @@
-// File: app/dashboard/inventory/[category]/page.tsx
-import { createClient } from '@/lib/supabase/server';
-// PERBAIKAN: Path import diubah agar sesuai dengan struktur folder
-import ProductClient from '../../../components/ProductClient';
+import { createClient } from '../../../lib/supabase/server';
+import ProductClient from '@/components/ProductClient';
 
 async function getCategoryDetails(categoryId: string) {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: category } = await supabase.from('categories').select('name').eq('id', categoryId).single();
     const { data: products } = await supabase.from('products').select('*').eq('category_id', categoryId).order('name');
     return {
