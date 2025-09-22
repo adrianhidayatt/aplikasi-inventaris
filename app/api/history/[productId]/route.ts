@@ -2,13 +2,13 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse, type NextRequest } from 'next/server';
 
-// The type for the second argument has been adjusted
 export async function GET(
   request: NextRequest, 
-  { params }: { params: { productId: string } }
+  // PERBAIKAN: Kita terima 'context' lalu ambil 'params' dari dalamnya.
+  context: { params: { productId: string } }
 ) {
   const supabase = await createClient();
-  const { productId } = params;
+  const { productId } = context.params; // Mengambil productId dari context.params
 
   const { data, error } = await supabase
     .from('stock_history')
