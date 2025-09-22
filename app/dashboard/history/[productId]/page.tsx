@@ -2,8 +2,18 @@
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 
+// --- TAMBAHKAN TYPE BARU DI SINI ---
+interface HistoryLog {
+  id: number;
+  created_at: string;
+  reason: string;
+  quantity_change: number;
+  new_quantity_after_change: number;
+  products: { name: string } | null; // Izinkan products bisa null
+}
+
 async function getStockHistory(productId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from('stock_history')
     .select('*, products(name)') // Mengambil nama dari tabel products
@@ -18,8 +28,8 @@ async function getStockHistory(productId: string) {
 }
 
 export default async function HistoryPage({ params }: { params: { productId: string } }) {
-  const history = await getStockHistory(params.productId);
-  const productName = history.length > 0 ? history[0].products.name : "Produk tidak ditemukan";
+  const history: HistoryLog[] = await getStockHistory(params.productId);
+  const productName = history.length > 0 && history[0].products ? history[0].products.name : "Produk tidak ditemukan";
 
   return (
     <main className="container mx-auto p-8">
@@ -36,7 +46,7 @@ export default async function HistoryPage({ params }: { params: { productId: str
             </tr>
           </thead>
           <tbody>
-            {history.map((log: any) => (
+            {history.map((log: HistoryLog) => (
               <tr key={log.id} className="border-b hover:bg-gray-50">
                 <td className="px-6 py-4">{new Date(log.created_at).toLocaleString()}</td>
                 <td className="px-6 py-4">{log.reason}</td>

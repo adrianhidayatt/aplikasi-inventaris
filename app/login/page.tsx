@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
+import Image from 'next/image';
 
 // Komponen kecil untuk ikon SVG Google agar lebih rapi
 const GoogleIcon = () => (
@@ -62,7 +63,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-1 space-y-6">
         <div className="flex justify-center">
-          <img src="/toko gemilang logo remove bg.png" alt="TB. GEMILANG INVENTORY" className="w24 h-24 object-contain"/>
+          <Image src="/toko gemilang logo remove bg.png" alt="TB. GEMILANG INVENTORY" width={50} height={50} className="rounded-full" />
         </div>
         
         {view !== 'forgot-password' && (
