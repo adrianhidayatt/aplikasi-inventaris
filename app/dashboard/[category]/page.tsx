@@ -1,5 +1,5 @@
 import { createClient } from '../../../lib/supabase/server';
-import ProductClient from '@/components/ProductClient';
+import ProductClient from 'app/components/ProductClient';
 
 async function getCategoryDetails(categoryId: string) {
     const supabase = await createClient();
